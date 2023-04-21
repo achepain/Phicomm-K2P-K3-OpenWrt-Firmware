@@ -127,23 +127,23 @@ jobs:
         name: OpenWrt_firmware${{ env.DEVICE_NAME }}${{ env.FILE_DATE }}
         path: ${{ env.FIRMWARE }}
 
-    - name: 生成Release标识
-      id: tag
-      if: env.UPLOAD_RELEASE == 'true' && !cancelled()
-      run: |
-        echo "::set-output name=release_tag::K2P16-$(date +"%Y.%m.%d-%H%M")"
-        touch release.txt
-        echo "::set-output name=status::success"
+    #- name: 生成Release标识
+    #  id: tag
+    #  if: env.UPLOAD_RELEASE == 'true' && !cancelled()
+    # run: |
+    #   echo "::set-output name=release_tag::K2P16-$(date +"%Y.%m.%d-%H%M")"
+    #   touch release.txt
+    #   echo "::set-output name=status::success"
 
-    - name: 发布到Release
-      uses: softprops/action-gh-release@v1
-      if: steps.tag.outputs.status == 'success' && !cancelled()
-      env:
-        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-      with:
-        tag_name: ${{ steps.tag.outputs.release_tag }}
-        body_path: release.txt
-        files: ${{ env.FIRMWARE }}/*
+   #- name: 发布到Release
+   #  uses: softprops/action-gh-release@v1
+   #  if: steps.tag.outputs.status == 'success' && !cancelled()
+   #  env:
+   #    GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+   #  with:
+   #    tag_name: ${{ steps.tag.outputs.release_tag }}
+   #    body_path: release.txt
+   #    files: ${{ env.FIRMWARE }}/*
 
     - name: 清理工作空间
       uses: GitRML/delete-workflow-runs@main
